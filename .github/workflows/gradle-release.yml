@@ -1,4 +1,4 @@
-name: Without refmap
+name: With release
 on:
   workflow_dispatch:
 jobs:
