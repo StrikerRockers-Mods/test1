@@ -1,4 +1,4 @@
-name: "Build Release"
+name: With refmap
 on:
   workflow_dispatch:
 jobs:
