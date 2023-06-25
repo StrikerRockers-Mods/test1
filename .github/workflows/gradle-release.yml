@@ -1,20 +1,29 @@
 name: "Build Release"
 on:
   push:
-    tags:
-      - "[0-9]+.[0-9]+.[0-9]+-[0-9]+.[0-9]+.[0-9]+"
-      - "[0-9]+.[0-9]+-[0-9]+.[0-9]+.[0-9]+"
 jobs:
-  build-release:
-    uses: StrikerRockers-Mods/.github/.github/workflows/build-release-v2.yml@main
-    secrets: inherit
-    with:
-      forge-cf-id: 272637
-      fabric-cf-id: 272637
-      modrinth-id: 5DJpA9qi
-      forge-dependencies: |
-            jei | recommends | *
-      fabric-dependencies: |
-            fabric-api | depends | *
-            cloth-config | depends | *
-            modmenu | recommends | *
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v2
+        with: { fetch-depth: 0 }
+      - name: "Set up JDK"
+        uses: actions/setup-java@v2
+        with: { distribution: "temurin", java-version: "17" }
+      - name: Build with Gradle
+        uses: burrunan/gradle-cache-action@v1
+        id: build
+        with:
+          arguments: "setupGithubActions build"
+          gradle-version: "wrapper"
+      - name: capture build artifacts
+        uses: actions/upload-artifact@v2
+        with:
+            name: Artifacts
+            path: |
+              Forge/build/libs/
+              Fabric/build/libs/
+              build/libs/
+              forge/build/libs/
+              fabric/build/libs/
