@@ -1,6 +1,5 @@
 name: "Build Release"
 on:
-  push:
   workflow_dispatch:
 jobs:
   build:
@@ -26,7 +25,8 @@ jobs:
           gzip: false
           name: "${{ steps.build.outputs.mod_name }}-${{ steps.build.outputs.minecraft_version }}-${{ steps.build.outputs.version }}"
           token: "${{ secrets.GITHUB_TOKEN }}"
-          tag: v0.0.2
+          tag: v1
+          allow_override: true
       - name: capture build artifacts
         uses: actions/upload-artifact@v2
         with:
